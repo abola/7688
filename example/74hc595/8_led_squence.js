@@ -19,64 +19,73 @@ var m = require('mraa');
 //  Q6[6|       |11]SHCP
 //  Q7[7|       |10]MR
 // GND[8|_______| 9]Q7s
-//       
+//     
+
+// 設定GPIO 接腳
 var DS   = new m.Gpio(15),  
     STCP = new m.Gpio(16),
     SHCP = new m.Gpio(17);
+    
+// 設定跑馬燈速度 (越小越快)    
+var sequence = 50; // ms
+
+var valeurMirroir=0,
+    chaserIndex=0;
 
 // 設定為 output
 DS  .dir(m.DIR_OUT);
 STCP.dir(m.DIR_OUT);
 SHCP.dir(m.DIR_OUT);
 
-var valeurMirroir=0;
 
 function setOutput(value) {
-    valeurMirroir=value;
-    for( var i = 0 ; i < 8 ; i++) {
-      // Set data bit
-      console.log("    value:" + value + ","+ (value & 0x80) );
-      if((value & 0x80) == 0x80)
-          DS.write(1);
-      else
-          DS.write(0);
-          
-      // clock data
-      SHCP.write(0);
-      SHCP.write(1);
-      value = value << 1;
-     }
-     // latch data
-      STCP.write(1);
-      STCP.write(0);
+  valeurMirroir=value;
+  for( var i = 0 ; i < 8 ; i++) {
+    
+    if( 0x80 == (value & 0x80) ){
+      DS.write(1);
     }
-
-
-
-function setBit(bitIndex) {
-    console.log( "  setBit(" + bitIndex + "):" + (1 << bitIndex) );
-  setOutput(valeurMirroir | (1 << bitIndex));
+    else {
+      DS.write(0);
+    }
+    // clock data
+    SHCP.write(0);
+    SHCP.write(1);
+    // 
+    value = value << 1;
+  }
+  // latch data
+  STCP.write(1);
+  STCP.write(0);
 }
 
+
+/**
+ * 逐顆亮燈
+ */
+function setBit(bitIndex) {
+  setOutput(valeurMirroir | (1 << bitIndex));
+}
+/**
+ * 逐顆熄燈
+ */
 function clrBit(bitIndex) {
-    console.log( "  clrBit(" + bitIndex + "):" + ~(1 << bitIndex) );
   setOutput(valeurMirroir & ~(1 << bitIndex));
 }
 
-var chaserIndex=0;
 
-setInterval(function() {
-  
-   if(chaserIndex > 7){
-     console.log("clear: " + chaserIndex + " -8");
-     clrBit(chaserIndex - 8);
-   }
-   else {
-     console.log("set bit:" + chaserIndex);
-     setBit(chaserIndex);
-       
-   }
-   chaserIndex++;
-   if(chaserIndex > 15) 
-     chaserIndex=0;
-   },50);
+// start it !
+setInterval(
+  function() {
+    if(chaserIndex > 7){
+      clrBit(chaserIndex - 8);
+    }
+    else {
+      setBit(chaserIndex);
+    }
+    
+    chaserIndex++;
+    if(chaserIndex > 15) 
+      chaserIndex=0;
+  }
+  , sequence );
