@@ -1,13 +1,24 @@
 var m = require('mraa');
-var shift_OE = new m.Gpio(14),
-    shift_RCLK = new m.Gpio(16),
-    shift_SRCLK = new m.Gpio(17),
-    shift_data = new m.Gpio(15);
 
-shift_OE.dir(m.DIR_OUT);
-shift_RCLK.dir(m.DIR_OUT);
-shift_SRCLK.dir(m.DIR_OUT);
-shift_data.dir(m.DIR_OUT);
+// 腳位命名參考
+//       _______
+//  Q1[1|   U   |16]Vcc
+//  Q2[2|       |15]Q0
+//  Q3[3|       |14]DS
+//  Q4[4|  595  |13]OE
+//  Q5[5|       |12]STCP
+//  Q6[6|       |11]SHCP
+//  Q7[7|       |10]MR
+// GND[8|_______| 9]Q7s
+//       
+var DS   = new m.Gpio(15),
+    STCP = new m.Gpio(16),
+    SHCP = new m.Gpio(17);
+
+// 設定為 output
+DS  .dir(m.DIR_OUT);
+STCP.dir(m.DIR_OUT);
+SHCP.dir(m.DIR_OUT);
 
 var valeurMirroir=0;
 
@@ -41,13 +52,7 @@ function clrBit(bitIndex) {
   setOutput(valeurMirroir & ~(1 << bitIndex));
 }
 
-// Creons un light chaser comme exemple
-
-
-
 var chaserIndex=0;
-
-// la routine d'intervale de 100ms
 
 setInterval(function() {
    if(chaserIndex > 15)
@@ -58,15 +63,3 @@ setInterval(function() {
    if(chaserIndex > 31) 
      chaserIndex=0;
    },50);
-
-
-
-
-function exitHandler(options, err) {
-    setOutput(0);
-    shift_OE.write(1);// disable output
-//    if (options.cleanup) console.log('clean');
-    if (err) console.log(err.stack);
-    if (options.exit) process.exit();
-}
-
