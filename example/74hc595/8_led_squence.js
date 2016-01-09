@@ -1,3 +1,8 @@
+/**
+ * 單顆 74hc595 跑馬燈
+ * 
+ * @link http://www.gibar.co/2016/01/linkit-7688-duo-74hc595-led.html
+ */
 var m = require('mraa');
 
 // 腳位命名參考
@@ -11,7 +16,7 @@ var m = require('mraa');
 //  Q7[7|       |10]MR
 // GND[8|_______| 9]Q7s
 //       
-var DS   = new m.Gpio(15),
+var DS   = new m.Gpio(15),  
     STCP = new m.Gpio(16),
     SHCP = new m.Gpio(17);
 
@@ -27,19 +32,18 @@ function setOutput(value) {
     for( var i = 0 ; i < 16 ; i++) {
       // Set data bit
       if((value & 0x8000) == 0x8000)
-          shift_data.write(1);
+          DS.write(1);
       else
-          shift_data.write(0);
+          DS.write(0);
+          
       // clock data
-      shift_SRCLK.write(0);
-      shift_SRCLK.write(1);
+      SHCP.write(0);
+      SHCP.write(1);
       value = value << 1;
      }
      // latch data
-      shift_RCLK.write(1);
-      shift_RCLK.write(0);
-     // active sortie
-      shift_OE.write(0);
+      STCP.write(1);
+      STCP.write(0);
     }
 
 
