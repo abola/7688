@@ -1,6 +1,10 @@
 /**
  * 單顆 74hc595 跑馬燈
  * 
+ * @author Abola Lee 
+ * @version 1.0
+ * @since 2016-01-09
+ * 
  * @link http://www.gibar.co/2016/01/linkit-7688-duo-74hc595-led.html
  */
 var m = require('mraa');
@@ -29,10 +33,10 @@ var valeurMirroir=0;
 
 function setOutput(value) {
     valeurMirroir=value;
-    for( var i = 0 ; i < 16 ; i++) {
+    for( var i = 0 ; i < 8 ; i++) {
       // Set data bit
-      console.log("    value:" + (value & 0x8000) );
-      if((value & 0x8000) == 0x8000)
+      console.log("    value:" + (value & 0x80) );
+      if((value & 0x80) == 0x80)
           DS.write(1);
       else
           DS.write(0);
@@ -63,9 +67,9 @@ var chaserIndex=0;
 
 setInterval(function() {
   
-   if(chaserIndex > 15){
-     console.log("clear: " + chaserIndex + " -16");
-     clrBit(chaserIndex - 16);
+   if(chaserIndex > 7){
+     console.log("clear: " + chaserIndex + " -8");
+     clrBit(chaserIndex - 8);
    }
    else {
      console.log("set bit:" + chaserIndex);
@@ -73,6 +77,6 @@ setInterval(function() {
        
    }
    chaserIndex++;
-   if(chaserIndex > 31) 
+   if(chaserIndex > 15) 
      chaserIndex=0;
    },50);
