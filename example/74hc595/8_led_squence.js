@@ -49,20 +49,28 @@ function setOutput(value) {
 
 
 function setBit(bitIndex) {
+    console.log( "  setBit(" + bitIndex + "):" + (1 << bitIndex) );
   setOutput(valeurMirroir | (1 << bitIndex));
 }
 
 function clrBit(bitIndex) {
+    console.log( "  clrBit(" + bitIndex + "):" + ~(1 << bitIndex) );
   setOutput(valeurMirroir & ~(1 << bitIndex));
 }
 
 var chaserIndex=0;
 
 setInterval(function() {
-   if(chaserIndex > 15)
+  
+   if(chaserIndex > 15){
+     console.log("clear: " + chaserIndex + " -16");
      clrBit(chaserIndex - 16);
-   else
+   }
+   else {
+     console.log("set bit:" + chaserIndex);
      setBit(chaserIndex);
+       
+   }
    chaserIndex++;
    if(chaserIndex > 31) 
      chaserIndex=0;
