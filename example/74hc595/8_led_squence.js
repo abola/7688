@@ -1,5 +1,6 @@
 /**
- * 單顆 74hc595 跑馬燈
+ * Linkit 7688 (duo) 範例
+ * 使用單顆 74hc595 控制8顆 LED 跑馬燈
  * 
  * @author Abola Lee 
  * @version 1.0
