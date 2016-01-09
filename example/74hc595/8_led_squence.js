@@ -35,7 +35,7 @@ function setOutput(value) {
     valeurMirroir=value;
     for( var i = 0 ; i < 8 ; i++) {
       // Set data bit
-      console.log("    value:" + (value & 0x80) );
+      console.log("    value:" value + ","+ (value & 0x80) );
       if((value & 0x80) == 0x80)
           DS.write(1);
       else
