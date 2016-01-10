@@ -50,10 +50,9 @@ for(var idx=0; idx<8; idx++) row[idx].dir(mraa.DIR_OUT_LOW);
 
 var offIndex=0;
 var interval = setInterval(function(){
-    if( offIndex<8 ) 
-      row[offIndex].write(1);
-    else
-      clearInterval(interval);
-    offIndex++;
-  }
+  if( offIndex<8 ) 
+    row[offIndex].write(1);
+  else
+    clearInterval(interval);
+  offIndex++;
 },250);
