@@ -23,7 +23,7 @@ var mraa = require('mraa');
 //     
 
 // 設定GPIO 接腳
-var mycol = [
+var col = [
       new mraa.Gpio(2)
       , new mraa.Gpio(16)
       , new mraa.Gpio(17)
@@ -33,7 +33,7 @@ var mycol = [
       , new mraa.Gpio(0)
       , new mraa.Gpio(1) 
     ],
-    myrow = [
+    row = [
       new mraa.Gpio(37)
       , new mraa.Gpio(3)
       , new mraa.Gpio(13)
@@ -45,10 +45,10 @@ var mycol = [
     ];
     
 // 預設全亮測試
-for(var idx=0; idx<8; idx++) ((mraa.Gpio)mycol[idx]).dir(mraa.DIR_OUT_HIGH);
-for(var idx=0; idx<8; idx++) myrow[idx].dir(mraa.DIR_OUT_LOW);
+for(var idx=0; idx<8; idx++) col[idx].dir(mraa.DIR_OUT_HIGH);
+for(var idx=0; idx<8; idx++) row[idx].dir(mraa.DIR_OUT_LOW);
 
 var offIndex=0;
 setInterval(function(){
-  if( offIndex<8 ) myrow[offIndex].write(1);
+  if( offIndex<8 ) row[offIndex].write(1);
 },250);
