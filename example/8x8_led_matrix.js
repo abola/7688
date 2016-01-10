@@ -60,14 +60,14 @@ var offRow = setInterval(function(){
     row[offIndex].write(1);
     offIndex++;
   }
-  else{
+  if( offIndex >= 8 ) {
     reset();
     clearInterval(offRow);
   }
 },250);
 
 // 逐column 開燈
-var onIndex = 7;
+var onIndex = 8;
 var onColumn = setInterval(function(){
   if (resetFlag == true) {}
   else if( offIndex>=8 && onIndex>=0) {
