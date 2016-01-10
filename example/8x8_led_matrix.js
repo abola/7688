@@ -6,21 +6,25 @@
  * @version 1.0
  * @since 2016-01-10
  * 
- * @link http://www.gibar.co/2016/01/linkit-7688-duo-74hc595-led.html
+ * @link http://www.gibar.co/2016/01/7688-8x8-led-matrix.html
  */
 var mraa = require('mraa');
 
 // 腳位命名參考
-//       _______
-//  Q1[1|   U   |16]Vcc
-//  Q2[2|       |15]Q0
-//  Q3[3|       |14]DS
-//  Q4[4|  595  |13]OE
-//  Q5[5|       |12]STCP
-//  Q6[6|       |11]SHCP
-//  Q7[7|       |10]MR
-// GND[8|_______| 9]Q7s
-//     
+//  
+//    
+//    \Col 1   2   3   4   5   6   7   8
+//Row  \ _13__03__04__10__06__11__15__16_  (針腳)
+// 1  09|                               |
+// 2  14|                               |
+// 3  08|                               |
+// 4  12|              8x8              |
+// 5  01|           LED Matrix          |
+// 6  07|                               |
+// 7  02|                               |
+// 8  05|_______________________________|
+//   (針腳)
+
 
 // 設定GPIO 接腳
 var col = [
@@ -48,6 +52,8 @@ var col = [
 for(var idx=0; idx<8; idx++) col[idx].dir(mraa.DIR_OUT_HIGH);
 for(var idx=0; idx<8; idx++) row[idx].dir(mraa.DIR_OUT_LOW);
 
+
+// 逐row關燈，結束程式
 var offIndex=0;
 var interval = setInterval(function(){
   if( offIndex<8 ) 
