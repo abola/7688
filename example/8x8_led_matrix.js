@@ -23,39 +23,32 @@ var mraa = require('mraa');
 //     
 
 // 設定GPIO 接腳
-var col1 = new mraa.Gpio(2),
-    col2 = new mraa.Gpio(16),
-    col3 = new mraa.Gpio(17),
-    col4 = new mraa.Gpio(44),
-    col5 = new mraa.Gpio(5),
-    col6 = new mraa.Gpio(46),
-    col7 = new mraa.Gpio(0),
-    col8 = new mraa.Gpio(1),
-    row1 = new mraa.Gpio(37),
-    row2 = new mraa.Gpio(3),
-    row3 = new mraa.Gpio(13),
-    row4 = new mraa.Gpio(45),
-    row5 = new mraa.Gpio(14),
-    row6 = new mraa.Gpio(12),
-    row7 = new mraa.Gpio(15),
-    row8 = new mraa.Gpio(4);
+var col = [
+      new mraa.Gpio(2),
+      , new mraa.Gpio(16)
+      , new mraa.Gpio(17)
+      , new mraa.Gpio(44)
+      , new mraa.Gpio(5)
+      , new mraa.Gpio(46)
+      , new mraa.Gpio(0)
+      , new mraa.Gpio(1) 
+    ],
+    row = [
+      new mraa.Gpio(37),
+      , new mraa.Gpio(3),
+      , new mraa.Gpio(13),
+      , new mraa.Gpio(45),
+      , new mraa.Gpio(14),
+      , new mraa.Gpio(12),
+      , new mraa.Gpio(15),
+      , new mraa.Gpio(4)      
+    ];
     
 // 預設全亮測試
-col1.dir(mraa.DIR_OUT_HIGH);
-col2.dir(mraa.DIR_OUT_HIGH);
-col3.dir(mraa.DIR_OUT_HIGH);
-col4.dir(mraa.DIR_OUT_HIGH);
-col5.dir(mraa.DIR_OUT_HIGH);
-col6.dir(mraa.DIR_OUT_HIGH);
-col7.dir(mraa.DIR_OUT_HIGH);
-col8.dir(mraa.DIR_OUT_HIGH);
+for(var idx=0; idx<8; idx++) col[idx].dir(mraa.DIR_OUT_HIGH);
+for(var idx=0; idx<8; idx++) row[idx].dir(mraa.DIR_OUT_LOW);
 
-row1.dir(mraa.DIR_OUT_LOW);
-row2.dir(mraa.DIR_OUT_LOW);
-row3.dir(mraa.DIR_OUT_LOW);
-row4.dir(mraa.DIR_OUT_LOW);
-row5.dir(mraa.DIR_OUT_LOW);
-row6.dir(mraa.DIR_OUT_LOW);
-row7.dir(mraa.DIR_OUT_LOW);
-row8.dir(mraa.DIR_OUT_LOW);
-    
+var offIndex=0;
+setInterval(function(){
+  if( offIndex<8 ) row[offIndex].write(1);
+},250);
