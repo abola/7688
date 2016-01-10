@@ -53,12 +53,34 @@ for(var idx=0; idx<8; idx++) col[idx].dir(mraa.DIR_OUT_HIGH);
 for(var idx=0; idx<8; idx++) row[idx].dir(mraa.DIR_OUT_LOW);
 
 
-// 逐row關燈，結束程式
+// 逐row關燈
 var offIndex=0;
-var interval = setInterval(function(){
+var offRow = setInterval(function(){
   if( offIndex<8 ) 
     row[offIndex].write(1);
-  else
-    clearInterval(interval);
+  else{
+    reset();
+    clearInterval(offRow);
+  }
   offIndex++;
 },250);
+
+// 逐column 開燈
+var onIndex = 7;
+var onColumn = setInterval(function(){
+  if( offIndex>=8 && onIndex>=0) 
+    col[onIndex].write(1);
+  else{
+    reset();
+    clearInterval(onColumn);
+  }
+  onIndex--;
+},250);
+
+/**
+ * 回復全暗
+ */
+function reset(){
+  for(var idx=0; idx<8; idx++) col[idx].write(0);
+  for(var idx=0; idx<8; idx++) row[idx].write(0);
+}
