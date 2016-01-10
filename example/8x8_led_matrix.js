@@ -45,7 +45,7 @@ var col = [
     ];
     
 // 預設全亮測試
-for(var idx=0; idx<8; idx++) col[idx].dir(mraa.DIR_OUT_HIGH);
+for(var idx=0; idx<8; idx++) ((mraa.Gpio)col[idx]).dir(mraa.DIR_OUT_HIGH);
 for(var idx=0; idx<8; idx++) row[idx].dir(mraa.DIR_OUT_LOW);
 
 var offIndex=0;
