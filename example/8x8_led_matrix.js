@@ -70,11 +70,11 @@ var onIndex = 7;
 var onColumn = setInterval(function(){
   if( offIndex>=8 && onIndex>=0) 
     col[onIndex].write(1);
+    onIndex--;
   else{
     reset();
     clearInterval(onColumn);
   }
-  onIndex--;
 },250);
 
 /**
