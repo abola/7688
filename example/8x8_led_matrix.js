@@ -68,9 +68,10 @@ var offRow = setInterval(function(){
 // 逐column 開燈
 var onIndex = 7;
 var onColumn = setInterval(function(){
-  if( offIndex>=8 && onIndex>=0) 
+  if( offIndex>=8 && onIndex>=0) {
     col[onIndex].write(1);
     onIndex--;
+  }
   else{
     reset();
     clearInterval(onColumn);
