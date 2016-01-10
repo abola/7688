@@ -56,19 +56,21 @@ for(var idx=0; idx<8; idx++) row[idx].dir(mraa.DIR_OUT_LOW);
 // 逐row關燈
 var offIndex=0;
 var offRow = setInterval(function(){
-  if( offIndex<8 ) 
+  if( offIndex<8 ) {
     row[offIndex].write(1);
+    offIndex++;
+  }
   else{
     reset();
     clearInterval(offRow);
   }
-  offIndex++;
 },250);
 
 // 逐column 開燈
 var onIndex = 7;
 var onColumn = setInterval(function(){
-  if( offIndex>=8 && onIndex>=0) {
+  if (resetFlag == true) {}
+  else if( offIndex>=8 && onIndex>=0) {
     col[onIndex].write(1);
     onIndex--;
   }
@@ -78,10 +80,13 @@ var onColumn = setInterval(function(){
   }
 },250);
 
+var resetFlag=false;
 /**
  * 回復全暗
  */
 function reset(){
+  resetFlag = true; // 
   for(var idx=0; idx<8; idx++) col[idx].write(0);
   for(var idx=0; idx<8; idx++) row[idx].write(0);
+  resetFlag=false;
 }
