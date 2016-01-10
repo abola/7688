@@ -72,7 +72,7 @@ var onColumn = setInterval(function(){
     col[onIndex].write(1);
     onIndex--;
   }
-  else{
+  else if ( onIndex < 0){
     reset();
     clearInterval(onColumn);
   }
