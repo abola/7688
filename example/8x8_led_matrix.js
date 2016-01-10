@@ -34,13 +34,13 @@ var col = [
       , new mraa.Gpio(1) 
     ],
     row = [
-      new mraa.Gpio(37),
-      , new mraa.Gpio(3),
-      , new mraa.Gpio(13),
-      , new mraa.Gpio(45),
-      , new mraa.Gpio(14),
-      , new mraa.Gpio(12),
-      , new mraa.Gpio(15),
+      new mraa.Gpio(37)
+      , new mraa.Gpio(3)
+      , new mraa.Gpio(13)
+      , new mraa.Gpio(45)
+      , new mraa.Gpio(14)
+      , new mraa.Gpio(12)
+      , new mraa.Gpio(15)
       , new mraa.Gpio(4)      
     ];
     
