@@ -187,12 +187,14 @@ function showFont(font){
         
       // 熄燈
       reset();
-      
+      console.log(">>>"+r+":");
       // 啟用目前指定的 Row
       row[r].write(0);
       // 啟用指定的 Column
-      for(var c=0; c<8; c++) col[c].write( (columnMask[c]&font[r][c]>0)?1:0  );
-      
+      for(var c=0; c<8; c++) {
+        console.log("  >"(columnMask[c]&font[r][c]>0)?1:0);
+        col[c].write( (columnMask[c]&font[r][c]>0)?1:0  );
+      }
       ++r;
       sleep(2);
     }
@@ -228,7 +230,9 @@ var showTextTable = setInterval(function(){
   if ( i == textTable.length ) {
     reset();
     clearInterval(showTextTable);
-  }else
-    showFont(textTable);
+  }
+  else {
+    showFont(textTable[i++]);
+  }
 },500);
 
