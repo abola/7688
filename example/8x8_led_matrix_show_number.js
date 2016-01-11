@@ -5,7 +5,7 @@
  * 
  * @author Abola Lee 
  * @version 1.0
- * @since 2016-01-10
+ * @since 2016-01-11
  * 
  * @link http://www.gibar.co/2016/01/7688-8x8-led-matrix.html
  */
@@ -172,16 +172,16 @@ var textTable = [
 
 var mask = [0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01];
 
-var fontInterval;
+var fontInterval, currFont;
 
 function showFont(font){
+  currFont = font ;
   // 清除前一個字的撥放
-  clearInterval(fontInterval);
   reset();
   
-  fontInterval = setInterval( function(){
     var c=0;
     while(1){
+      if (font != currFont) break;
       // 回到 Col1 重新開始
       if (c>=8) c=0;
         
@@ -198,7 +198,6 @@ function showFont(font){
       ++c;
       sleep(2);
     }
-  }, 0 );
 
 }
 
@@ -233,7 +232,7 @@ var showTextTable = setInterval(function(){
     clearInterval(showTextTable);
   }
   else {
-    setTimeout( function(){ clearInterval(fontInterval);showFont(textTable[tableIndex++]); },500);
+    showFont(textTable[tableIndex++]);
   }
 },500);
 
