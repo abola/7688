@@ -170,7 +170,7 @@ var textTable = [
 [0x81,0x42,0x24,0x99,0x5A,0x3C,0x18,0x18],
 [0x18,0x18,0x18,0x18,0xFF,0x7E,0x3C,0x18]];
 
-var columnMask = [0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01];
+var mask = [0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01];
 
 var fontInterval;
 
@@ -180,21 +180,22 @@ function showFont(font){
   reset();
   
   fontInterval = setInterval( function(){
-    var r=0;
+    var c=0;
     while(1){
-      // 回到 Row1 重新開始
-      if (r>=8) r=0;
+      // 回到 Col1 重新開始
+      if (c>=8) c=0;
         
       // 熄燈
       reset();
       
-      // 啟用目前指定的 Row
-      row[r].write(0);
-      // 啟用指定的 Column
-      for(var c=0; c<8; c++) {
-        col[c].write( (columnMask[c]&font[c]>0)?1:0  );
+      // 啟用目前指定的 Column
+      col[c].write(1);
+      
+      // 啟用指定的 Row
+      for(var r=0; r<8; r++) {
+        row[r].write( (mask[r]&font[c])>0?0:1  );
       }
-      ++r;
+      ++c;
       sleep(2);
     }
   }, 0 );
