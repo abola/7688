@@ -172,16 +172,17 @@ var textTable = [
 
 var mask = [0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01];
 
-var fontInterval, currFont;
+var fontInterval;
 
-function showFont(font){
+function showFont(font,milliseconds){
+  var start = new Date().getTime();
   currFont = font ;
   // 清除前一個字的撥放
   reset();
   
     var c=0;
     while(1){
-      if (font != currFont) break;
+      if ((new Date().getTime() - start) > milliseconds) break;
       // 回到 Col1 重新開始
       if (c>=8) c=0;
         
@@ -225,14 +226,8 @@ function sleep(milliseconds) {
 
 var tableIndex=0;
 // show time !!
-var showTextTable = setInterval(function(){
-  if ( tableIndex >= textTable.length ) {
-    // end 
-    reset();
-    clearInterval(showTextTable);
-  }
-  else {
-    showFont(textTable[tableIndex++]);
-  }
-},500);
-
+while(1){
+  showFont(textTable[tableIndex++], 500);
+}
+// end 
+reset();
