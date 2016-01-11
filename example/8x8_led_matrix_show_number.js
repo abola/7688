@@ -233,7 +233,7 @@ var showTextTable = setInterval(function(){
     clearInterval(showTextTable);
   }
   else {
-    showFont(textTable[tableIndex++]);
+    setTimeout( function(){ clearInterval(fontInterval);showFont(textTable[tableIndex++]); },500);
   }
 },500);
 
