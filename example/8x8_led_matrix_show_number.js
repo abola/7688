@@ -1,13 +1,13 @@
 /**
  * Linkit 7688 範例
- * 使用 GPIO 控制 8x8 LED Matrix (共陽) 
- * 顯示數字
+ * 使用 GPIO 控制 8x8 LED Matrix 顯示文數字
+ * 
  * 
  * @author Abola Lee 
  * @version 1.0
  * @since 2016-01-11
  * 
- * @link http://www.gibar.co/2016/01/7688-8x8-led-matrix.html
+ * @link http://www.gibar.co/2016/01/linkit-smart-7688-8x8-led-matrx-show-number.html
  */
 var mraa = require('mraa');
 
@@ -58,8 +58,8 @@ for(var idx=0; idx<8; idx++) row[idx].dir(mraa.DIR_OUT_LOW);
 sleep(1000);
 reset();
 
-// 字集設定 
-
+// 字集 
+// http://www.instructables.com/id/LED-Scolling-Dot-Matrix-Font-Graphics-Generator-/
 var textTable = [
 [0x7F,0x88,0x88,0x88,0x7F,0x00,0x00,0x00],
 [0xFF,0x91,0x91,0x91,0x6E,0x00,0x00,0x00],
@@ -174,32 +174,34 @@ var mask = [0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01];
 
 var fontInterval;
 
+/**
+ * 顯示字元
+ * 
+ */
 function showFont(font,milliseconds){
   var start = new Date().getTime();
-  currFont = font ;
-  // 清除前一個字的撥放
-  reset();
-  
-    var c=0;
-    while(1){
-      if ((new Date().getTime() - start) > milliseconds) break;
-      // 回到 Col1 重新開始
-      if (c>=8) c=0;
-        
-      // 熄燈
-      reset();
-      
-      // 啟用目前指定的 Column
-      col[c].write(1);
-      
-      // 啟用指定的 Row
-      for(var r=0; r<8; r++) {
-        row[r].write( (mask[r]&font[c])>0?0:1  );
-      }
-      ++c;
-      sleep(1);
-    }
 
+  
+  var c=0;
+  while(1){
+    // 計時器
+    if ((new Date().getTime() - start) > milliseconds) break;
+    // 回到 Col1 重新開始
+    if (c>=8) c=0;
+    
+    // 熄燈
+    reset();
+      
+    // 啟用目前指定的 Column
+    col[c].write(1);
+      
+    // 啟用指定的 Row 使用 mask
+    // ex: 1000 0000 & 1100 1100 => 1000 0000
+    for(var r=0; r<8; r++) 
+      row[r].write( (mask[r]&font[c])>0?0:1  );
+      
+    ++c;
+  }
 }
 
 /**
@@ -227,7 +229,7 @@ function sleep(milliseconds) {
 var tableIndex=0;
 // show time !!
 while(tableIndex<textTable.length){
-  showFont(textTable[tableIndex++], 200);
+  showFont(textTable[tableIndex++], 200); // 每 200ms 換下一個字 
 }
 // end 
 reset();
