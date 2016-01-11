@@ -197,7 +197,7 @@ function showFont(font,milliseconds){
         row[r].write( (mask[r]&font[c])>0?0:1  );
       }
       ++c;
-      sleep(2);
+      sleep(1);
     }
 
 }
@@ -226,8 +226,8 @@ function sleep(milliseconds) {
 
 var tableIndex=0;
 // show time !!
-while(1){
-  showFont(textTable[tableIndex++], 500);
+while(tableIndex<textTable.length){
+  showFont(textTable[tableIndex++], 200);
 }
 // end 
 reset();
