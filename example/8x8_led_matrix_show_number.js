@@ -53,6 +53,47 @@ var col = [
 for(var idx=0; idx<8; idx++) col[idx].dir(mraa.DIR_OUT_HIGH);
 for(var idx=0; idx<8; idx++) row[idx].dir(mraa.DIR_OUT_LOW);
 
+reset();
+
+// 字集設定 
+
+var smile = [
+[0,0,0,0,0,0,0,0],
+[0,1,1,0,0,1,1,0],
+[0,1,1,0,0,1,1,0],
+[0,1,1,0,0,1,1,0],
+[0,0,0,0,0,0,0,0],
+[0,1,0,0,0,0,1,0],
+[0,0,1,0,0,1,0,0],
+[0,0,0,1,1,0,0,0]];
+
+
+var fontInterval;
+
+function showFont(font){
+  clearInterval(fontInterval);
+  reset();
+  
+  fontInterval = setInterval( function(){
+    var r=0;
+    while(1){
+      // 回到 Row1 重新開始
+      if (r>=8) r=0;
+        
+      // 熄燈
+      reset();
+      
+      row[r].write(0);
+      for(var c=0; c<8; c++) col[c].write( font[r][c] );
+      
+      ++r;
+      sleep(5);
+    }
+  }, 0 );
+
+}
+
+
 var resetFlag=false;
 /**
  * 回復全暗
@@ -60,6 +101,21 @@ var resetFlag=false;
 function reset(){
   resetFlag = true; // 
   for(var idx=0; idx<8; idx++) col[idx].write(0);
-  for(var idx=0; idx<8; idx++) row[idx].write(0);
+  for(var idx=0; idx<8; idx++) row[idx].write(1);
   resetFlag=false;
 }
+
+/**
+ * Simple sleep function 
+ */
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
+
+
+showFont(smile);
