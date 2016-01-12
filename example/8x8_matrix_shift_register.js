@@ -116,8 +116,30 @@ function reset(){
   pulseSTCP();
 }
 
+/**
+ * 全亮
+ */
+function turnOn(){
+  for(var idx=0; idx<16; idx++) {
+    if ( -1 == colMapping.indexOf(idx) ) {
+      DS.write(0);
+    }else{
+      DS.write(1);
+    }
+    
+    // clock data
+    pulseSHCP();
+  }
+  
+  // latch data
+  pulseSTCP();
+}
+
+
 function pulseSTCP(){STCP.write(1);STCP.write(0);}
-function pulseSHCP(){STCP.write(0);STCP.write(1);}
+function pulseSHCP(){SHCP.write(0);SHCP.write(1);}
+
+turnOn();
 
 var tableIndex=0;
 // show time !!
