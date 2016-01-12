@@ -80,7 +80,7 @@ function showFont(font,milliseconds){
           // is row
           // 啟用指定的 Row 使用 mask
           // ex: 1000 0000 & 1100 1100 => 1000 0000
-           DS.write( (font[rowIndex]&mask[rowMapping.indexOf(idx)])>0?0:1 );
+           DS.write( (font[colIndex]&mask[rowMapping.indexOf(idx)])>0?0:1 );
         }else{
           // is column
           // 啟用目前指定的 Column
