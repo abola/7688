@@ -76,15 +76,15 @@ function showFont(font,milliseconds){
       // 每組訊號就是 8x shift register數量
       for(var idx=0; idx<16; idx++) {
         // 判定目前控製腳位是column 還是row
-        if ( -1 == colMapping.indexOf(16-idx+1) ) {
+        if ( -1 == colMapping.indexOf(16-idx) ) {
           // is row
           // 啟用指定的 Row 使用 mask
           // ex: 1000 0000 & 1100 1100 => 1000 0000
-           DS.write( (font[colIndex]&mask[rowMapping.indexOf(16-idx+1)])>0?0:1 );
+           DS.write( (font[colIndex]&mask[rowMapping.indexOf(16-idx)])>0?0:1 );
         }else{
           // is column
           // 啟用目前指定的 Column
-          DS.write( colMapping.indexOf(16-idx+1)==(colIndex+1)?1:0 );
+          DS.write( colMapping.indexOf(16-idx)==(colIndex+1)?1:0 );
         }
         
         // clock data
@@ -102,7 +102,7 @@ function showFont(font,milliseconds){
  */
 function reset(){
   for(var idx=0; idx<16; idx++) {
-    if ( -1 == colMapping.indexOf(16-idx+1) ) {
+    if ( -1 == colMapping.indexOf(16-idx) ) {
       DS.write(1);
     }else{
       DS.write(0);
@@ -121,7 +121,7 @@ function reset(){
  */
 function turnOn(){
   for(var idx=0; idx<16; idx++) {
-    if ( -1 == colMapping.indexOf(16-idx+1) ) {
+    if ( -1 == colMapping.indexOf(16-idx) ) {
       DS.write(0);
     }else{
       DS.write(1);
