@@ -4,9 +4,9 @@
  * 
  * @author Abola Lee 
  * @version 1.0
- * @since 2016-01-09
+ * @since 2016-01-12
  * 
- * @link http://www.gibar.co/2016/01/linkit-7688-duo-74hc595-led.html
+ * @link -
  */
 var m = require('mraa');
 
@@ -26,3 +26,8 @@ var m = require('mraa');
 var DS   = new m.Gpio(15),  
     STCP = new m.Gpio(16),
     SHCP = new m.Gpio(17);
+
+// 設定為 output
+DS  .dir(m.DIR_OUT);
+STCP.dir(m.DIR_OUT);
+SHCP.dir(m.DIR_OUT);
