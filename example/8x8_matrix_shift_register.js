@@ -80,11 +80,11 @@ function showFont(font,milliseconds){
           // is row
           // 啟用指定的 Row 使用 mask
           // ex: 1000 0000 & 1100 1100 => 1000 0000
-           DS.write( (font[colIndex]&mask[rowMapping.indexOf(idx)])>0?0:1 );
+           DS.write( (font[colIndex]&mask[rowMapping.indexOf(idx+1)])>0?0:1 );
         }else{
           // is column
           // 啟用目前指定的 Column
-          DS.write( colMapping.indexOf(idx)==(colIndex+1)?1:0 );
+          DS.write( colMapping.indexOf(idx+1)==(colIndex+1)?1:0 );
         }
         
         // clock data
@@ -102,7 +102,7 @@ function showFont(font,milliseconds){
  */
 function reset(){
   for(var idx=0; idx<16; idx++) {
-    if ( -1 == colMapping.indexOf(idx) ) {
+    if ( -1 == colMapping.indexOf(idx+1) ) {
       DS.write(1);
     }else{
       DS.write(0);
@@ -121,7 +121,7 @@ function reset(){
  */
 function turnOn(){
   for(var idx=0; idx<16; idx++) {
-    if ( -1 == colMapping.indexOf(idx) ) {
+    if ( -1 == colMapping.indexOf(idx+1) ) {
       DS.write(0);
     }else{
       DS.write(1);
