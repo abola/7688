@@ -38,7 +38,23 @@ DS  .dir(mraa.DIR_OUT);
 STCP.dir(mraa.DIR_OUT);
 SHCP.dir(mraa.DIR_OUT);
 
-function setOutput(value) {
+
+// 8x8 LED Matrix 腳位命名參考
+//  
+//    
+//    \Col 1   2   3   4   5   6   7   8
+//Row  \ _13__03__04__10__06__11__15__16_  (針腳)
+// 1  09|                               |
+// 2  14|                               |
+// 3  08|                               |
+// 4  12|              8x8              |
+// 5  01|           LED Matrix          |
+// 6  07|                               |
+// 7  02|                               |
+// 8  05|_______________________________|
+//   (針腳)
+
+function showFont(font) {
   valeurMirroir=value;
   for( var i = 0 ; i < 8 ; i++) {
     
@@ -57,20 +73,6 @@ function setOutput(value) {
   // latch data
   STCP.write(1);
   STCP.write(0);
-}
-
-
-/**
- * 逐顆亮燈
- */
-function setBit(bitIndex) {
-  setOutput(valeurMirroir | (1 << bitIndex));
-}
-/**
- * 逐顆熄燈
- */
-function clrBit(bitIndex) {
-  setOutput(valeurMirroir & ~(1 << bitIndex));
 }
 
 
