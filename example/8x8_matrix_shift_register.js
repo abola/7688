@@ -13,7 +13,7 @@
  * @link -
  */
 var mraa = require('mraa'),
-//載入字集
+    //載入字集
     text = require('./textTable.js');
 
 // 腳位命名參考
