@@ -71,12 +71,13 @@ function showFont(font,milliseconds){
     // 逐column亮燈
     for(var colIndex=0;colIndex<8; colIndex++){
       // 重設燈號
-      reset();
+      turnOff();
         
       // 每組訊號就是 8x shift register數量
       for(var idx=0; idx<16; idx++) {
-        // 判定目前控製腳位是column 還是row
-        if ( -1 == colMapping.indexOf(16-idx) ) {
+        // 判定目前控製腳位是column 還是row 
+        // 注意訊號是由最後一位元開始送
+        if ( -1 == colMapping.indexOf(16-idx) ) { 
           // is row
           // 啟用指定的 Row 使用 mask
           // ex: 1000 0000 & 1100 1100 => 1000 0000
@@ -100,7 +101,7 @@ function showFont(font,milliseconds){
 /**
  * 回復全暗
  */
-function reset(){
+function turnOff(){
   for(var idx=0; idx<16; idx++) {
     if ( -1 == colMapping.indexOf(16-idx) ) {
       DS.write(1);
@@ -147,4 +148,4 @@ while(tableIndex<text.textTable.length){
   showFont(text.textTable[tableIndex++], 200); // 每 200ms 換下一個字 
 }
 // end 
-reset();
+turnOff();
