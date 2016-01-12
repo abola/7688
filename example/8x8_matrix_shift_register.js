@@ -54,40 +54,75 @@ SHCP.dir(mraa.DIR_OUT);
 // 8  05|_______________________________|
 //   (針腳)
 
-function showFont(font) {
-  valeurMirroir=value;
-  for( var i = 0 ; i < 8 ; i++) {
+var colMapping = [13, 3, 4,10, 6,11,15,16],
+    rowMapping = [ 9,14, 8,12, 1, 7, 2, 5],
+    mask = [0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01];
+
+/**
+ * 顯示字元
+ * 
+ */
+function showFont(font,milliseconds){
+  var start = new Date().getTime();
+  while(1){
+    // 計時器
+    if ((new Date().getTime() - start) > milliseconds) break;
     
-    if( 0x80 == (value & 0x80) ){
-      DS.write(1);
+    // 逐column亮燈
+    for(var colIndex=0;colIndex<8; colIndex++){
+      // 重設燈號
+      reset();
+        
+      // 每組訊號就是 8x shift register數量
+      for(var idx=0; idx<16; idx++) {
+        // 判定目前控製腳位是column 還是row
+        if ( -1 == colMapping.indexOf(idx) ) {
+          // is row
+          // 啟用指定的 Row 使用 mask
+          // ex: 1000 0000 & 1100 1100 => 1000 0000
+           DS.write( (font[rowIndex]&mask[rowMapping.indexOf(idx)])>0?0:1 );
+        }else{
+          // is column
+          // 啟用目前指定的 Column
+          DS.write( colMapping.indexOf(idx)==(colIndex+1)?1:0 );
+        }
+        
+        // clock data
+        pulseSHCP();
+      }
+      
+      // latch data
+      pulseSTCP();
     }
-    else {
-      DS.write(0);
-    }
-    // clock data
-    SHCP.write(0);
-    SHCP.write(1);
-    // 
-    value = value << 1;
   }
-  // latch data
-  STCP.write(1);
-  STCP.write(0);
 }
 
-
-// start it !
-setInterval(
-  function() {
-    if(chaserIndex > 7){
-      clrBit(chaserIndex - 8);
-    }
-    else {
-      setBit(chaserIndex);
+/**
+ * 回復全暗
+ */
+function reset(){
+  for(var idx=0; idx<16; idx++) {
+    if ( -1 == colMapping.indexOf(idx) ) {
+      DS.write(1);
+    }else{
+      DS.write(0);
     }
     
-    chaserIndex++;
-    if(chaserIndex > 15) 
-      chaserIndex=0;
+    // clock data
+    pulseSHCP();
   }
-  , sequence );
+  
+  // latch data
+  pulseSTCP();
+}
+
+function pulseSTCP(){STCP.write(1);STCP.write(0);}
+function pulseSHCP(){STCP.write(0);STCP.write(1);}
+
+var tableIndex=0;
+// show time !!
+while(tableIndex<text.textTable.length){
+  showFont(text.textTable[tableIndex++], 200); // 每 200ms 換下一個字 
+}
+// end 
+reset();
