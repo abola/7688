@@ -9,6 +9,8 @@
  * @link -
  */
 var m = require('mraa');
+//載入字集
+require('textTable.js');
 
 // 腳位命名參考
 //       _______
