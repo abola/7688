@@ -14,3 +14,7 @@
   (接線篇) http://www.gibar.co/2016/01/7688-8x8-led-matrix.html
   
   (文數字) http://www.gibar.co/2016/01/linkit-smart-7688-8x8-led-matrx-show-number.html
+
+* 7688 + 8x8 LED Matrix + 74HC595x2
+  
+  使用 3 GPIO pin 控制 LED Matrix http://www.gibar.co/2016/01/linkit-smart-7688-8x8-matrix-3gpio.html
